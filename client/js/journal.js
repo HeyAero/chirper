@@ -156,11 +156,12 @@ function appendEntry(data) {
     const comments = data.comments;
     comments.forEach((comment) => {
       const commentBox = document.createElement('div');
+      commentBox.className = 'comment';
       const commentUser = document.createElement('h5');
       const aComment = document.createElement('p');
 
       commentUser.textContent = 'Anonymous';
-      aComment.textContent = comment;
+      aComment.textContent = `"${comment}"`;
       commentBox.appendChild(commentUser);
       commentBox.appendChild(aComment);
       commentHolder.appendChild(commentBox);
@@ -367,11 +368,12 @@ function updateComment(data) {
     const comments = data.comments;
     comments.forEach((comment) => {
       const commentBox = document.createElement('div');
+      commentBox.className = 'comment';
       const commentUser = document.createElement('h5');
       const aComment = document.createElement('p');
 
       commentUser.textContent = 'Anonymous';
-      aComment.textContent = comment;
+      aComment.textContent = `"${comment}"`;
       commentBox.appendChild(commentUser);
       commentBox.appendChild(aComment);
       commentHolder.appendChild(commentBox);
