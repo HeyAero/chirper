@@ -148,6 +148,27 @@ function appendEntry(data) {
   date.className += 'entry-date';
   name.textContent = 'Anonymous';
 
+
+  const commentHolder = document.createElement('div');
+  commentHolder.id = `comments-${data.id}`
+  commentHolder.className = "comments";
+  if (data.comments !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      const commentUser = document.createElement('h5');
+      const aComment = document.createElement('p');
+
+      commentUser.textContent = 'Anonymous';
+      aComment.textContent = comment;
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(aComment);
+      commentHolder.appendChild(commentBox);
+    })
+  } else {
+    // do nothing
+  }
+
   entryDiv.appendChild(date);
   entryDiv.appendChild(name);
   const urlCheck = data.entry;
@@ -162,7 +183,7 @@ function appendEntry(data) {
     entryDiv.appendChild(entry);
   }
   entryDiv.appendChild(reactionDiv);
-
+  entryDiv.appendChild(commentHolder)
   allEntries.appendChild(entryDiv);
   findReactions();
 }
@@ -337,6 +358,27 @@ function submitComment(e) {
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
+}
+
+function updateComment(data) {
+  const commentHolder = document.getElementById(`comments-${data.id}`);
+  commentHolder.innerHTML = '';
+  if (data.comments !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      const commentUser = document.createElement('h5');
+      const aComment = document.createElement('p');
+
+      commentUser.textContent = 'Anonymous';
+      aComment.textContent = comment;
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(aComment);
+      commentHolder.appendChild(commentBox);
+    })
+  } else {
+    // do nothing
+  }
 }
 
 module.exports = {
