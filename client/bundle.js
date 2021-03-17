@@ -59,7 +59,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -77,7 +77,12 @@ function findReactions() {
 function registerReactions(e) {
   let anchor = e.target.closest('a');
   if(anchor !== null) {
-    submitReaction(anchor.name, anchor.id)
+    if (anchor.id !== "comment") {
+      submitReaction(anchor.name, anchor.id);
+    } else {
+      console.log('Else')
+      handleComment(anchor.name, anchor.id);
+    }
   } else {
     // do nothing
   }
@@ -99,7 +104,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${hekoruURL}/entry/reaction`, options)
+  fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -186,7 +191,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch(`${hekoruURL}/entry`)
+  fetch(`${testingURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -293,7 +298,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -301,6 +306,60 @@ function submitGif(url) {
   
   const giphyArea = document.getElementById('giphy-form');
   giphyArea.className = 'd-none';
+}
+
+function handleComment(id, reaction) {
+  const checkComment = document.getElementById('commentForm')
+  if (checkComment) {
+    checkComment.innerHTML = '';
+    checkComment.remove();
+  }
+  const entry =  document.getElementById(id);
+  const commentForm = document.createElement('form');
+  const commentArea = document.createElement('TEXTAREA');
+  const submitButton = document.createElement('input')
+
+  commentForm.id = 'commentForm'
+  commentArea.id = 'commentBox'
+  commentArea.name = 'commentBox'
+  commentArea.className += 'form-control mb-2'
+  commentArea.placeholder = 'Write comment here...'
+
+  submitButton.type = 'submit';
+  submitButton.id = 'commentSubmit';
+  submitButton.name = id;
+
+  commentForm.appendChild(commentArea);
+  commentForm.appendChild(submitButton);
+  entry.appendChild(commentForm);
+
+  commentForm.addEventListener('submit', submitComment)
+
+}
+
+function submitComment(e) {
+  console.log(e);
+  e.preventDefault();
+
+  const commentData = {
+    id: e.submitter.name,
+    comment: e.target.commentBox.value,
+  };
+
+  console.log(commentData);
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(commentData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(`${testingURL}/entry/comment`, options)
+    .then((r) => r.json())
+    .then(updateComment)
+    .catch(console.warn);
 }
 
 module.exports = {

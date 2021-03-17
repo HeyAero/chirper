@@ -21,4 +21,11 @@ router.post('/reaction', (req, res) => {
   res.status(201).send(returnedEntry);
 });
 
+router.post('/comment', (req, res) => {
+  const data = req.body;
+  Entry.addComment(parseInt(data.id), data.comment);
+  const returnedEntry = Entry.findById(parseInt(data.id))
+  res.status(201).send(returnedEntry);
+});
+
 module.exports = router;
