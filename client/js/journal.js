@@ -1,5 +1,5 @@
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com"
+const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -36,7 +36,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${testingURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -81,7 +81,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${testingURL}/entry/reaction`, options)
+  fetch(`${herokuURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -190,7 +190,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch(`${testingURL}/entry`)
+  fetch(`${herokuURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -297,7 +297,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${testingURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -355,7 +355,7 @@ function submitComment(e) {
     },
   };
 
-  fetch(`${testingURL}/entry/comment`, options)
+  fetch(`${herokuURL}/entry/comment`, options)
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
